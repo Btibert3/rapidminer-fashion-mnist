@@ -16,7 +16,7 @@
         <parameter key="directory" value="/Users/btibert/github/rapidminer-fashion-mnist/data"/>
         <parameter key="use_label" value="true"/>
       </operator>
-      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples" width="90" x="45" y="232">
+      <operator activated="true" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples" width="90" x="45" y="181">
         <parameter key="parameter_expression" value=""/>
         <parameter key="condition_class" value="custom_filters"/>
         <parameter key="invert_filter" value="false"/>
@@ -26,7 +26,7 @@
         <parameter key="filters_logic_and" value="true"/>
         <parameter key="filters_check_metadata" value="true"/>
       </operator>
-      <operator activated="true" class="split_data" compatibility="9.10.001" expanded="true" height="103" name="Split Data" width="90" x="46" y="416">
+      <operator activated="true" class="split_data" compatibility="9.10.001" expanded="true" height="103" name="Split Data" width="90" x="45" y="331">
         <enumeration key="partitions">
           <parameter key="ratio" value="0.8"/>
           <parameter key="ratio" value="0.2"/>
@@ -35,11 +35,11 @@
         <parameter key="use_local_random_seed" value="false"/>
         <parameter key="local_random_seed" value="1992"/>
       </operator>
-      <operator activated="true" class="shuffle" compatibility="9.10.001" expanded="true" height="82" name="Shuffle" width="90" x="168" y="314">
+      <operator activated="true" class="shuffle" compatibility="9.10.001" expanded="true" height="82" name="Shuffle" width="90" x="168" y="257">
         <parameter key="use_local_random_seed" value="false"/>
         <parameter key="local_random_seed" value="1992"/>
       </operator>
-      <operator activated="true" class="image_handling:image_pre_processor" compatibility="0.2.001" expanded="true" height="103" name="Pre-Process Images (2)" width="90" x="225" y="61">
+      <operator activated="true" class="image_handling:image_pre_processor" compatibility="0.2.001" expanded="true" height="103" name="Pre-Process Images (2)" width="90" x="295" y="258">
         <parameter key="path" value="Path"/>
         <parameter key="use_label" value="false"/>
         <process expanded="true">
@@ -53,8 +53,8 @@
           <portSpacing port="sink_transform" spacing="0"/>
         </process>
       </operator>
-      <operator activated="true" class="deeplearning:dl4j_tensor_sequential_neural_network" compatibility="1.2.000" expanded="true" height="145" name="Deep Learning (Tensor)" width="90" x="306" y="239">
-        <parameter key="epochs" value="3"/>
+      <operator activated="true" class="deeplearning:dl4j_tensor_sequential_neural_network" compatibility="1.2.000" expanded="true" height="145" name="Deep Learning (Tensor)" width="90" x="421" y="34">
+        <parameter key="epochs" value="1"/>
         <parameter key="use_miniBatch" value="true"/>
         <parameter key="batch_size" value="32"/>
         <parameter key="log_each_epoch" value="true"/>
@@ -184,16 +184,16 @@
         </process>
         <description align="center" color="transparent" colored="false" width="126">9+ minutes to run 10 epochs</description>
       </operator>
-      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply" width="90" x="432" y="145"/>
-      <operator activated="true" class="nd4j:group_models_generic" compatibility="1.1.000" expanded="true" height="103" name="Group Models (Generic)" width="90" x="543" y="43"/>
-      <operator activated="true" class="nd4j:apply_model_generic" compatibility="1.1.000" expanded="true" height="82" name="Apply Model (Generic)" width="90" x="465" y="431"/>
-      <operator activated="true" class="append" compatibility="9.10.001" expanded="true" height="82" name="Append" width="90" x="609" y="276">
+      <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply" width="90" x="557" y="36"/>
+      <operator activated="true" class="nd4j:group_models_generic" compatibility="1.1.000" expanded="true" height="103" name="Group Models (Generic)" width="90" x="693" y="167"/>
+      <operator activated="true" class="nd4j:apply_model_generic" compatibility="1.1.000" expanded="true" height="82" name="Apply Model (Generic)" width="90" x="702" y="328"/>
+      <operator activated="true" class="append" compatibility="9.10.001" expanded="true" height="82" name="Append" width="90" x="867" y="358">
         <parameter key="datamanagement" value="double_array"/>
         <parameter key="data_management" value="auto"/>
         <parameter key="merge_type" value="all"/>
         <description align="center" color="transparent" colored="false" width="126">Output is a list of ExampleSets, so we stack them together. Test Set only.&lt;br&gt;</description>
       </operator>
-      <operator activated="true" class="performance_classification" compatibility="9.10.001" expanded="true" height="82" name="Performance" width="90" x="697" y="135">
+      <operator activated="true" class="performance_classification" compatibility="9.10.001" expanded="true" height="82" name="Performance" width="90" x="946" y="182">
         <parameter key="main_criterion" value="first"/>
         <parameter key="accuracy" value="true"/>
         <parameter key="classification_error" value="false"/>
@@ -228,20 +228,18 @@
       <connect from_op="Pre-Process Images (2)" from_port="tensor" to_op="Deep Learning (Tensor)" to_port="training set"/>
       <connect from_op="Pre-Process Images (2)" from_port="preprocessing model" to_op="Group Models (Generic)" to_port="models in 1"/>
       <connect from_op="Deep Learning (Tensor)" from_port="model" to_op="Multiply" to_port="input"/>
-      <connect from_op="Deep Learning (Tensor)" from_port="history" to_port="result 4"/>
-      <connect from_op="Multiply" from_port="output 1" to_op="Group Models (Generic)" to_port="models in 2"/>
-      <connect from_op="Multiply" from_port="output 2" to_port="result 3"/>
+      <connect from_op="Deep Learning (Tensor)" from_port="weights" to_port="result 3"/>
+      <connect from_op="Multiply" from_port="output 1" to_port="result 1"/>
+      <connect from_op="Multiply" from_port="output 2" to_op="Group Models (Generic)" to_port="models in 2"/>
       <connect from_op="Group Models (Generic)" from_port="model out" to_op="Apply Model (Generic)" to_port="model"/>
       <connect from_op="Apply Model (Generic)" from_port="labelled data" to_op="Append" to_port="example set 1"/>
       <connect from_op="Append" from_port="merged set" to_op="Performance" to_port="labelled data"/>
-      <connect from_op="Performance" from_port="performance" to_port="result 1"/>
-      <connect from_op="Performance" from_port="example set" to_port="result 2"/>
+      <connect from_op="Performance" from_port="performance" to_port="result 2"/>
       <portSpacing port="source_input 1" spacing="0"/>
-      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="10"/>
       <portSpacing port="sink_result 2" spacing="0"/>
       <portSpacing port="sink_result 3" spacing="0"/>
-      <portSpacing port="sink_result 4" spacing="0"/>
-      <portSpacing port="sink_result 5" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="390"/>
     </process>
   </operator>
 </process>
