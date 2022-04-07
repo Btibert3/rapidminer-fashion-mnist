@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.10.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.10.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="image_handling:read_image_meta_data" compatibility="0.2.001" expanded="true" height="68" name="Read Image Meta Data" width="90" x="48" y="72">
+        <parameter key="directory" value="/Users/btibert/github/rapidminer-fashion-mnist/data"/>
+        <parameter key="use_label" value="true"/>
+      </operator>
+      <operator activated="false" class="filter_examples" compatibility="9.10.001" expanded="true" height="103" name="Filter Examples" width="90" x="45" y="233">
+        <parameter key="parameter_expression" value=""/>
+        <parameter key="condition_class" value="custom_filters"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list">
+          <parameter key="filters_entry_key" value="Label.does_not_equal.999"/>
+        </list>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+      </operator>
+      <operator activated="false" class="split_data" compatibility="9.10.001" expanded="true" height="68" name="Split Data" width="90" x="46" y="417">
+        <enumeration key="partitions">
+          <parameter key="ratio" value="0.8"/>
+          <parameter key="ratio" value="0.2"/>
+        </enumeration>
+        <parameter key="sampling_type" value="automatic"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+      </operator>
+      <operator activated="false" class="shuffle" compatibility="9.10.001" expanded="true" height="82" name="Shuffle" width="90" x="168" y="315">
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+      </operator>
+      <operator activated="true" class="image_handling:image_pre_processor" compatibility="0.2.001" expanded="true" height="103" name="Pre-Process Images (2)" width="90" x="226" y="61">
+        <parameter key="path" value="Path"/>
+        <parameter key="use_label" value="false"/>
+        <process expanded="true">
+          <operator activated="true" class="image_handling:color_scale_image" compatibility="0.2.001" expanded="true" height="68" name="Color Scale Image" width="90" x="310" y="36">
+            <parameter key="minimum" value="0.0"/>
+            <parameter key="maximum" value="1.0"/>
+          </operator>
+          <connect from_port="transform" to_op="Color Scale Image" to_port="transformer"/>
+          <connect from_op="Color Scale Image" from_port="transformer" to_port="transform"/>
+          <portSpacing port="source_transform" spacing="0"/>
+          <portSpacing port="sink_transform" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="collect" compatibility="9.10.001" expanded="true" height="82" name="Collect" width="90" x="377" y="51">
+        <parameter key="unfold" value="false"/>
+      </operator>
+      <operator activated="false" class="deeplearning:dl4j_tensor_sequential_neural_network" compatibility="1.2.001" expanded="true" height="145" name="Deep Learning (Tensor)" width="90" x="432" y="395">
+        <parameter key="epochs" value="1"/>
+        <parameter key="use_miniBatch" value="false"/>
+        <parameter key="batch_size" value="32"/>
+        <parameter key="log_each_epoch" value="true"/>
+        <parameter key="epochs_per_log" value="10"/>
+        <parameter key="optimization_method" value="Stochastic Gradient Descent"/>
+        <parameter key="backpropagation" value="Standard"/>
+        <parameter key="backpropagation_length" value="50"/>
+        <parameter key="use_early_stopping" value="false"/>
+        <parameter key="condition_strategy" value="score improvement"/>
+        <parameter key="patience" value="5"/>
+        <parameter key="minimal_score_improvement" value="0.0"/>
+        <parameter key="best_epoch_score" value="0.01"/>
+        <parameter key="max_iteration_score" value="3.0"/>
+        <parameter key="max_iteration_time" value="10"/>
+        <parameter key="updater" value="Adam"/>
+        <parameter key="learning_rate" value="0.01"/>
+        <parameter key="momentum" value="0.9"/>
+        <parameter key="rho" value="0.95"/>
+        <parameter key="epsilon" value="1.0E-6"/>
+        <parameter key="beta1" value="0.9"/>
+        <parameter key="beta2" value="0.999"/>
+        <parameter key="RMSdecay" value="0.95"/>
+        <parameter key="weight_initialization" value="Normal"/>
+        <parameter key="bias_initialization" value="0.0"/>
+        <parameter key="use_regularization" value="false"/>
+        <parameter key="l1_strength" value="0.1"/>
+        <parameter key="l2_strength" value="0.1"/>
+        <parameter key="cudnn_algo_mode" value="Prefer fastest"/>
+        <parameter key="infer_input_shape" value="true"/>
+        <parameter key="network_type" value="Simple Neural Network"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <process expanded="true">
+          <operator activated="true" class="deeplearning:dl4j_output_layer" compatibility="1.2.001" expanded="true" height="68" name="Add Output Layer" width="90" x="273" y="34">
+            <parameter key="output_type" value="Automatic"/>
+            <parameter key="loss_function" value="Multiclass Cross Entropy (Classification)"/>
+            <parameter key="neurons" value="1"/>
+            <parameter key="activation_function" value="ReLU (Rectified Linear Unit)"/>
+            <parameter key="use_dropout" value="false"/>
+            <parameter key="dropout_rate" value="0.25"/>
+            <parameter key="overwrite_networks_weight_initialization" value="false"/>
+            <parameter key="weight_initialization" value="Normal"/>
+            <parameter key="overwrite_networks_bias_initialization" value="false"/>
+            <parameter key="bias_initialization" value="0.0"/>
+          </operator>
+          <connect from_port="in layerArchitecture" to_op="Add Output Layer" to_port="layerArchitecture"/>
+          <connect from_op="Add Output Layer" from_port="layerArchitecture" to_port="out layerArchitecture"/>
+          <portSpacing port="source_in layerArchitecture" spacing="0"/>
+          <portSpacing port="sink_out layerArchitecture" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="false" class="nd4j:apply_model_generic" compatibility="1.2.000" expanded="true" height="82" name="Apply Model (Generic)" width="90" x="546" y="406"/>
+      <connect from_op="Read Image Meta Data" from_port="output" to_op="Pre-Process Images (2)" to_port="example set"/>
+      <connect from_op="Pre-Process Images (2)" from_port="tensor" to_op="Collect" to_port="input 1"/>
+      <connect from_op="Collect" from_port="collection" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+    </process>
+  </operator>
+</process>

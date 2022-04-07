@@ -39,7 +39,7 @@
         <parameter key="use_local_random_seed" value="false"/>
         <parameter key="local_random_seed" value="1992"/>
       </operator>
-      <operator activated="true" class="image_handling:image_pre_processor" compatibility="0.2.001" expanded="true" height="103" name="Pre-Process Images (2)" width="90" x="225" y="61">
+      <operator activated="true" class="image_handling:image_pre_processor" compatibility="0.2.001" expanded="true" height="103" name="Pre-Process Images (2)" width="90" x="226" y="61">
         <parameter key="path" value="Path"/>
         <parameter key="use_label" value="false"/>
         <process expanded="true">
@@ -53,8 +53,8 @@
           <portSpacing port="sink_transform" spacing="0"/>
         </process>
       </operator>
-      <operator activated="true" class="deeplearning:dl4j_tensor_sequential_neural_network" compatibility="1.2.000" expanded="true" height="145" name="Deep Learning (Tensor)" width="90" x="306" y="239">
-        <parameter key="epochs" value="3"/>
+      <operator activated="true" class="deeplearning:dl4j_tensor_sequential_neural_network" compatibility="1.2.001" expanded="true" height="145" name="Deep Learning (Tensor)" width="90" x="304" y="239">
+        <parameter key="epochs" value="1"/>
         <parameter key="use_miniBatch" value="true"/>
         <parameter key="batch_size" value="32"/>
         <parameter key="log_each_epoch" value="true"/>
@@ -88,7 +88,7 @@
         <parameter key="use_local_random_seed" value="false"/>
         <parameter key="local_random_seed" value="1992"/>
         <process expanded="true">
-          <operator activated="true" class="deeplearning:dl4j_convolutional_layer" compatibility="1.2.000" expanded="true" height="68" name="Conv16" width="90" x="56" y="34">
+          <operator activated="true" class="deeplearning:dl4j_convolutional_layer" compatibility="1.2.001" expanded="true" height="68" name="Conv16" width="90" x="55" y="34">
             <parameter key="number_of_activation_maps" value="16"/>
             <parameter key="kernel_size" value="3.3"/>
             <parameter key="stride_size" value="1.1"/>
@@ -96,6 +96,7 @@
             <parameter key="padding_size" value="0.0"/>
             <parameter key="dilation_factor" value="1.1"/>
             <parameter key="activation_function" value="ReLU (Rectified Linear Unit)"/>
+            <parameter key="layer_name" value="cnn16"/>
             <parameter key="use_dropout" value="false"/>
             <parameter key="dropout_rate" value="0.25"/>
             <parameter key="overwrite_networks_weight_initialization" value="false"/>
@@ -103,15 +104,16 @@
             <parameter key="overwrite_networks_bias_initialization" value="false"/>
             <parameter key="bias_initialization" value="0.0"/>
           </operator>
-          <operator activated="true" class="deeplearning:dl4j_pooling_layer" compatibility="1.2.000" expanded="true" height="68" name="Add Pooling Layer" width="90" x="207" y="34">
+          <operator activated="true" class="deeplearning:dl4j_pooling_layer" compatibility="1.2.001" expanded="true" height="68" name="Add Pooling Layer" width="90" x="119" y="134">
             <parameter key="Pooling Method" value="max"/>
             <parameter key="PNorm Value" value="1.0"/>
             <parameter key="Kernel Size" value="3.3"/>
             <parameter key="Stride Size" value="1.1"/>
             <parameter key="padding_mode" value="Truncated"/>
             <parameter key="padding_size" value="0.0"/>
+            <parameter key="layer_name" value="pool16"/>
           </operator>
-          <operator activated="true" class="deeplearning:dl4j_convolutional_layer" compatibility="1.2.000" expanded="true" height="68" name="Conv32" width="90" x="328" y="34">
+          <operator activated="true" class="deeplearning:dl4j_convolutional_layer" compatibility="1.2.001" expanded="true" height="68" name="Conv32" width="90" x="196" y="217">
             <parameter key="number_of_activation_maps" value="32"/>
             <parameter key="kernel_size" value="3.3"/>
             <parameter key="stride_size" value="1.1"/>
@@ -119,6 +121,7 @@
             <parameter key="padding_size" value="0.0"/>
             <parameter key="dilation_factor" value="1.1"/>
             <parameter key="activation_function" value="ReLU (Rectified Linear Unit)"/>
+            <parameter key="layer_name" value="cnn32"/>
             <parameter key="use_dropout" value="false"/>
             <parameter key="dropout_rate" value="0.25"/>
             <parameter key="overwrite_networks_weight_initialization" value="false"/>
@@ -126,15 +129,16 @@
             <parameter key="overwrite_networks_bias_initialization" value="false"/>
             <parameter key="bias_initialization" value="0.0"/>
           </operator>
-          <operator activated="true" class="deeplearning:dl4j_pooling_layer" compatibility="1.2.000" expanded="true" height="68" name="Add Pooling Layer (2)" width="90" x="453" y="34">
+          <operator activated="true" class="deeplearning:dl4j_pooling_layer" compatibility="1.2.001" expanded="true" height="68" name="Add Pooling Layer (2)" width="90" x="286" y="312">
             <parameter key="Pooling Method" value="max"/>
             <parameter key="PNorm Value" value="1.0"/>
             <parameter key="Kernel Size" value="3.3"/>
             <parameter key="Stride Size" value="1.1"/>
             <parameter key="padding_mode" value="Truncated"/>
             <parameter key="padding_size" value="0.0"/>
+            <parameter key="layer_name" value="pool32"/>
           </operator>
-          <operator activated="true" class="deeplearning:dl4j_convolutional_layer" compatibility="1.2.000" expanded="true" height="68" name="Conv64" width="90" x="582" y="34">
+          <operator activated="true" class="deeplearning:dl4j_convolutional_layer" compatibility="1.2.001" expanded="true" height="68" name="Conv64" width="90" x="433" y="143">
             <parameter key="number_of_activation_maps" value="64"/>
             <parameter key="kernel_size" value="3.3"/>
             <parameter key="stride_size" value="1.1"/>
@@ -142,6 +146,7 @@
             <parameter key="padding_size" value="0.0"/>
             <parameter key="dilation_factor" value="1.1"/>
             <parameter key="activation_function" value="ReLU (Rectified Linear Unit)"/>
+            <parameter key="layer_name" value="cnn64"/>
             <parameter key="use_dropout" value="false"/>
             <parameter key="dropout_rate" value="0.25"/>
             <parameter key="overwrite_networks_weight_initialization" value="false"/>
@@ -149,9 +154,10 @@
             <parameter key="overwrite_networks_bias_initialization" value="false"/>
             <parameter key="bias_initialization" value="0.0"/>
           </operator>
-          <operator activated="true" class="deeplearning:dl4j_dense_layer" compatibility="1.2.000" expanded="true" height="68" name="FC256" width="90" x="662" y="144">
+          <operator activated="true" class="deeplearning:dl4j_dense_layer" compatibility="1.2.001" expanded="true" height="68" name="FC256" width="90" x="499" y="234">
             <parameter key="neurons" value="256"/>
             <parameter key="activation_function" value="ReLU (Rectified Linear Unit)"/>
+            <parameter key="layer_name" value="fc256"/>
             <parameter key="use_dropout" value="false"/>
             <parameter key="dropout_rate" value="0.25"/>
             <parameter key="overwrite_networks_weight_initialization" value="false"/>
@@ -159,11 +165,12 @@
             <parameter key="overwrite_networks_bias_initialization" value="false"/>
             <parameter key="bias_initialization" value="0.0"/>
           </operator>
-          <operator activated="true" class="deeplearning:dl4j_output_layer" compatibility="1.2.000" expanded="true" height="68" name="Add Output Layer" width="90" x="938" y="250">
+          <operator activated="true" class="deeplearning:dl4j_output_layer" compatibility="1.2.001" expanded="true" height="68" name="Add Output Layer" width="90" x="567" y="343">
             <parameter key="output_type" value="FullyConnected"/>
             <parameter key="loss_function" value="Multiclass Cross Entropy (Classification)"/>
             <parameter key="neurons" value="10"/>
             <parameter key="activation_function" value="Softmax"/>
+            <parameter key="layer_name" value="output"/>
             <parameter key="use_dropout" value="false"/>
             <parameter key="dropout_rate" value="0.25"/>
             <parameter key="overwrite_networks_weight_initialization" value="false"/>
@@ -185,8 +192,8 @@
         <description align="center" color="transparent" colored="false" width="126">9+ minutes to run 10 epochs</description>
       </operator>
       <operator activated="true" class="multiply" compatibility="9.10.001" expanded="true" height="103" name="Multiply" width="90" x="432" y="145"/>
-      <operator activated="true" class="nd4j:group_models_generic" compatibility="1.1.000" expanded="true" height="103" name="Group Models (Generic)" width="90" x="543" y="43"/>
-      <operator activated="true" class="nd4j:apply_model_generic" compatibility="1.1.000" expanded="true" height="82" name="Apply Model (Generic)" width="90" x="465" y="431"/>
+      <operator activated="true" class="nd4j:group_models_generic" compatibility="1.2.000" expanded="true" height="103" name="Group Models (Generic)" width="90" x="543" y="43"/>
+      <operator activated="true" class="nd4j:apply_model_generic" compatibility="1.2.000" expanded="true" height="82" name="Apply Model (Generic)" width="90" x="465" y="431"/>
       <operator activated="true" class="append" compatibility="9.10.001" expanded="true" height="82" name="Append" width="90" x="609" y="276">
         <parameter key="datamanagement" value="double_array"/>
         <parameter key="data_management" value="auto"/>
@@ -229,6 +236,7 @@
       <connect from_op="Pre-Process Images (2)" from_port="preprocessing model" to_op="Group Models (Generic)" to_port="models in 1"/>
       <connect from_op="Deep Learning (Tensor)" from_port="model" to_op="Multiply" to_port="input"/>
       <connect from_op="Deep Learning (Tensor)" from_port="history" to_port="result 4"/>
+      <connect from_op="Deep Learning (Tensor)" from_port="weights" to_port="result 5"/>
       <connect from_op="Multiply" from_port="output 1" to_op="Group Models (Generic)" to_port="models in 2"/>
       <connect from_op="Multiply" from_port="output 2" to_port="result 3"/>
       <connect from_op="Group Models (Generic)" from_port="model out" to_op="Apply Model (Generic)" to_port="model"/>
@@ -242,6 +250,7 @@
       <portSpacing port="sink_result 3" spacing="0"/>
       <portSpacing port="sink_result 4" spacing="0"/>
       <portSpacing port="sink_result 5" spacing="0"/>
+      <portSpacing port="sink_result 6" spacing="0"/>
     </process>
   </operator>
 </process>
